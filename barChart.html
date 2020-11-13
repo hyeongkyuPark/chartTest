@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.min.js" integrity="sha512-9hzM/Gfa9KP1hSBlq3/zyNF/dfbcjAYwUTBWYX+xi8fzfAPHL3ILwS1ci0CTVeuXTGkRAWgRMZZwtSNV7P+nfw==" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div style="width:100%;">
+        <canvas id="canvas"></canvas>
+      </div>
+      
+      <script>
+        const label = ['공복', '아침식전', '아침식후', '점심식전', '점식식후', '저녁식전', '저녁식후', '취침전'];
+        const sampleData1 = [];
+        const sampleData2 = [];
+        for(let i=0; i<8; i++) {
+            sampleData1.push(Math.floor(Math.random() * 80) + 61);
+            sampleData2.push(Math.floor(Math.random() * 80) + 61);
+        }
+        
+      new Chart(document.getElementById("canvas"), {
+          type: 'bar',
+          data: {
+              labels: label.map((data) => data),
+              datasets: [{
+                  label:'2월',
+                  data: sampleData1,
+                    backgroundColor: '#c1dbff',
+                  fill: false,
+                  lineTension: 0
+              },{
+                  label:'3월',
+                  data: sampleData2,
+                  backgroundColor: "#3869ab",
+                  fill: false,
+                  lineTension: 0
+              }
+              ]
+          },
+          options: {
+              responsive: true,
+              tooltips: {
+                  mode: 'index',
+                  intersect: false,
+              },
+              hover: {
+                  mode: 'nearest',
+                  intersect: true
+              },
+              scales: {
+                  xAxes: [{
+                    gridLines: {
+                        display: false
+                    }
+                  }],
+                  yAxes: [{
+                      display: true,
+                      ticks: {
+                          min:0,
+                          max:300,
+                        stepSize: 40
+                      }
+                      
+                  }]
+              },
+              annotation: {
+                annotations: [{
+                    type: 'line',
+                    mode: 'horizontal',
+                    scaleID: 'y-axis-0',
+                    value: '120',
+                    borderColor: '#ff8e00',
+                    borderWidth: 1
+                },
+                {
+                    type: 'line',
+                    mode: 'horizontal',
+                    scaleID: 'y-axis-0',
+                    value: '80',
+                    borderColor: '#e53935',
+                    borderWidth: 1
+                }],
+                drawTime: "afterDraw" // (default)
+    }
+          }
+      });
+      
+      </script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.min.js" integrity="sha512-9hzM/Gfa9KP1hSBlq3/zyNF/dfbcjAYwUTBWYX+xi8fzfAPHL3ILwS1ci0CTVeuXTGkRAWgRMZZwtSNV7P+nfw==" crossorigin="anonymous"></script>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .chart {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .chart p {
+            position: absolute;
+            font-size: 3em;
+            font-weight: bold;
+        }
+        .chart p span {
+            font-size: 0.4em;
+            color: #a6a6a6;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+
+    <div class="chart">
+        <canvas id="bubble-chart"></canvas>
+    </div>
+    <script>
+        const sampleHighData = [];
+        const sampleLowData = [];
+        let startTime = 1.5;
+        for(let i=0; i<8; i++) {
+            sampleHighData.push({
+                time: startTime,
+                count: Math.floor(Math.random() * 10) + 1
+            })
+            sampleLowData.push({
+                time: startTime,
+                count: Math.floor(Math.random() * 10) + 1
+            })
+            startTime += 3;
+        }
+
+        console.log(sampleHighData.map((data) => {return {x: data.time, y: data.count, r: data.count*10}}));
+        // Pie Chart Example
+        var ctx = new Chart(document.getElementById("bubble-chart"), {
+     type: 'bubble',
+     data: {
+       datasets: [{
+         label: ["고혈당"],
+         backgroundColor: "#ff8e00",
+         borderColor: "rgba(255,221,50,1)",
+         title: "",//adding the title you want to show
+         data: sampleHighData.map((data) => {return {x: data.time, y: data.count, r: data.count}})
+       }, {
+         label: ["저혈당"],
+         backgroundColor: "#e53935",
+         borderColor: "rgba(193,46,12,1)",
+         title: "",//adding the title you want to show
+         data: sampleLowData.map((data) => {return {x: data.time, y: -data.count, r: data.count}})
+       }]
+     },
+     options: {
+       scales: {
+         yAxes: [{
+             
+           scaleLabel: {
+             display: true,
+             labelString: "횟수"
+           },
+           gridLines: {
+                display: false
+            },
+            ticks: {
+                        min:-20,
+                        max:20,
+                        stepSize: 10
+                    }
+         }],
+         xAxes: [{
+           scaleLabel: {
+             display: true,
+             labelString: "시간"
+           },
+           ticks: {
+                          min:0,
+                          max:24,
+                        stepSize: 3
+                      }
+         }]
+       },
+       annotation: {
+                annotations: [{
+                    type: 'line',
+                    mode: 'horizontal',
+                    scaleID: 'y-axis-0',
+                    value: '0',
+                    borderColor: '#919191',
+                    borderWidth: 1
+                }],
+                drawTime: "afterDraw" // (default)
+    }
+     }
+});
+
+Chart.plugins.register({
+     afterDatasetsDraw: function(chart, easing) {
+       var ctx = chart.ctx;
+
+       chart.data.datasets.forEach(function(dataset, i) {
+         var meta = chart.getDatasetMeta(i);
+         if (meta.type == "bubble") { //exclude scatter
+           meta.data.forEach(function(element, index) {
+             // Draw the text in black, with the specified font
+             ctx.fillStyle = 'rgb(0, 0, 0)';
+             var fontSize = 13;
+             var fontStyle = 'normal';
+             var fontFamily = 'Helvetica Neue';
+             ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
+
+             // Just naively convert to string for now
+             var dataString = dataset.data[index].toString();
+             // Make sure alignment settings are correct
+             ctx.textAlign = 'center';
+             ctx.textBaseline = 'middle';
+
+             var padding = 15;
+             var position = element.tooltipPosition();
+             ctx.fillText(dataset.title, position.x, position.y - (fontSize / 2) - padding);
+           });
+         } //if
+       });
+     }
+});
+      
+      </script>
+</body>
+</html>

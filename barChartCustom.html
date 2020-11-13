@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>barChart</title>
+</head>
+<style>
+    #bmi {
+        display: flex;
+        flex-direction: column;
+        padding: 60px 0;
+    }
+    .bmi-arrow-wrap {
+        display: flex;
+        justify-content: center;
+    }
+    .bmi-arrow {
+        position: relative;
+        width: 80%;
+    }
+    .bmi-arrow p{
+        display: block;
+        width: 0%;
+        height: 1vw;
+        text-align: right;
+        background-image: url('./pixel-heart-2779422_1280.webp');
+    }
+    .bmi-arrow p img {
+        position: absolute;
+        bottom: 0;
+        width: 5%;
+        transform: translateX(-48%);
+    }
+    .bmi-chart {
+        position: relative;
+        display: flex;
+        justify-content: center;
+    }
+
+    .bmi-chart .bmi-bar-box {
+        display: flex;
+        width: 80%;
+        height: 3vw;
+        border-radius: 100px;
+        overflow: hidden;
+    }
+
+    .bmi-chart .bmi-bar-box div:nth-child(1) {
+        width: 0%;
+        height: 100%;
+        background: #ff8e00;
+        transition: width cubic-bezier( 1, 1, 1, 1 ) 0.2s;
+    }
+    .bmi-chart .bmi-bar-box div:nth-child(2) {
+        width: 0%;
+        height: 100%;
+        background: #24af0f;
+        transition: width cubic-bezier( 1, 1, 1, 1 ) 0.4s 0.2s;
+    }
+    .bmi-chart .bmi-bar-box div:nth-child(3) {
+        width: 0%;
+        background: #ff8e00;
+        transition: width cubic-bezier( 1, 1, 1, 1 ) 0.2s 0.6s;
+    }
+    .bmi-chart .bmi-bar-box div:nth-child(4) {
+        width: 0%;
+        background: #e53935;
+        transition: width cubic-bezier( 1, 1, 1, 1 ) 0.2s 0.8s;
+    }
+
+
+    .bmi-chart .bmi-title-box {
+        position: absolute;
+        display: flex;
+        width: 80%;
+        height: 3vw;
+        border-radius: 100px;
+        overflow: hidden;
+        transform: translateY(80%);
+        font-size: 1vw;
+    }
+
+    .bmi-chart .bmi-title-box div {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #919191;
+    }
+    .bmi-chart .bmi-title-box div:nth-child(1) {
+        width: 20%;
+        height: 100%;
+    }
+    .bmi-chart .bmi-title-box div:nth-child(2) {
+        width: 40%;
+        height: 100%;
+    }
+    .bmi-chart .bmi-title-box div:nth-child(3) {
+        width: 20%;
+        height: 100%;
+    }
+    .bmi-chart .bmi-title-box div:nth-child(4) {
+        width: 20%;
+        height: 100%;
+    }
+
+    .bmi-chart .bmi-number-box {
+        position: absolute;
+        display: flex;
+        width: 80%;
+        height: 3vw;
+        border-radius: 100px;
+        overflow: hidden;
+        transform: translateY(80%);
+        font-size: 1vw;
+    }
+
+    .bmi-chart .bmi-number-box div {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .bmi-chart .bmi-number-box div:nth-child(1) {
+        width: 10%;
+        height: 100%;
+    }
+    .bmi-chart .bmi-number-box div:nth-child(2) {
+        width: 20%;
+        height: 100%;
+    }
+    .bmi-chart .bmi-number-box div:nth-child(3) {
+        width: 20%;
+        height: 100%;
+    }
+    .bmi-chart .bmi-number-box div:nth-child(4) {
+        width: 20%;
+        height: 100%;
+    }
+    .bmi-chart .bmi-number-box div:nth-child(5) {
+        width: 20%;
+        height: 100%;
+    }
+    .bmi-chart .bmi-number-box div:nth-child(6) {
+        width: 10%;
+        height: 100%;
+    }
+</style>
+<body>
+    <div id="bmi">
+        <div class="bmi-arrow-wrap">
+            <div class="bmi-arrow">
+                <p><img src="./pixel-heart-2779422_1280.webp" alt=""></p>
+            </div>
+        </div>
+        <div class="bmi-chart">
+            <div class="bmi-bar-box">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div class="bmi-title-box">
+                <div>저체중</div>
+                <div>정상 체중</div>
+                <div>과체중</div>
+                <div>심한 과체중</div>
+            </div>
+            <div class="bmi-number-box">
+                <div></div>
+                <div>18.5</div>
+                <div></div>
+                <div>25</div>
+                <div>30</div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <input id="bmi-input" type="text" />
+        <button id="bmi-input-btn">입력</button>
+    </div>
+
+    <script>
+        function btnClick() {
+            const bmiInput = document.getElementById("bmi-input").value;
+            const bmiArrow = document.getElementsByClassName("bmi-arrow")[0].getElementsByTagName('p')[0];
+            let bmi = 0;
+            
+            if(bmiInput <= 18.5) {
+                bmi = (bmiInput/(18.5/20));
+            } else if(bmiInput <= 25) {
+                bmi = (((bmiInput-18.5)/(6.5/40))+20);
+            } else if(bmiInput <= 30) {
+                bmi = (((bmiInput-25)/(5/20))+60);
+            } else if(bmiInput <= 50) {
+                bmi = (((bmiInput-30)/(20/20))+80);
+            } else {
+                bmi = (100);
+            }
+
+            bmiArrow.style.width = '0px';
+            console.log(bmiArrow.style.width);
+            bmiArrow.style.transition = 'width 1s'
+            bmiArrow.style.width = `${bmi}%`;
+        }
+
+        
+        
+        function writeBmi(bmi) {
+            const barBox = document.getElementsByClassName('bmi-bar-box')[0];
+            const bar1 = barBox.children[0];
+            const bar2 = barBox.children[1];
+            const bar3 = barBox.children[2];
+            const bar4 = barBox.children[3];
+
+            bar1.style.width = '20%';
+            bar2.style.width = '40%';
+            bar3.style.width = '20%';
+            bar4.style.width = '20%';
+        }
+
+
+        const bmiInputBtn = document.getElementById('bmi-input-btn');
+        bmiInputBtn.addEventListener('click', btnClick);
+        window.onload = writeBmi(30);
+
+
+
+
+    </script>
+</body>
+</html>

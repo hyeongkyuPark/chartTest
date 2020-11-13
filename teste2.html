@@ -1,0 +1,112 @@
+<html>
+    <head>
+      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+      <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+  
+        function drawChart() {
+          const sampleData = [];
+
+          const chartDateformat = 'yyyy년MM월dd일';
+
+          for(let i=1; i<32; i++) {
+              sampleData.push([new Date(2020, 02, i), Math.floor(Math.random() * 60) + 81]);
+           
+          }
+
+          console.log(sampleData);
+
+          var data = google.visualization.arrayToDataTable([
+            ['Year', 'BloodSugar'],
+            ...sampleData
+          ]);
+  
+          var options = {
+            legend: { position: 'bottom' },
+            pointSize: 5,
+            tooltip: {textStyle : {fontSize:18}, showColorCode : true,trigger: 'both'},
+            hAxis: {
+              gridlines: {
+                format: chartDateformat,
+                count: 5,
+                units: {     
+                        days  : {format: ['MM/dd']}
+                }                                                 
+              }
+            },
+            vAxis: {
+              minValue: 100,
+              maxValue: 300,
+              viewWindow:{min:0},
+              ticks: [0, 80, 120, 200, 300],
+              textStyle:{fontSize:12},
+              baseline: 120,
+              baselineColor: '#F00'
+            },
+            annotation: {
+              annotations: [{
+                  type: 'line',
+                  mode: 'horizontal',
+                  scaleID: 'y-axis-0',
+                  value: '60',
+                  borderColor: 'tomato',
+                  borderWidth: 1,
+                  label: {
+        // Background color of label, default below
+        backgroundColor: 'rgba(0,0,0,0.8)',
+ 
+        // Font family of text, inherits from global
+        fontFamily: "sans-serif",
+ 
+        // Font size of text, inherits from global
+        fontSize: 20,
+ 
+        // Font style of text, default below
+        fontStyle: "bold",
+ 
+        // Font color of text, default below
+        fontColor: "#fff",
+ 
+        // Padding of label to add left/right, default below
+        xPadding: 6,
+ 
+        // Padding of label to add top/bottom, default below
+        yPadding: 6,
+ 
+        // Radius of label rectangle, default below
+        cornerRadius: 6,
+ 
+        // Anchor position of label on line, can be one of: top, bottom, left, right, center. Default below.
+        position: "center",
+ 
+        // Adjustment along x-axis (left-right) of label relative to above number (can be negative)
+        // For horizontal lines positioned left or right, negative values move
+        // the label toward the edge, and positive values toward the center.
+        xAdjust: 0,
+ 
+        // Adjustment along y-axis (top-bottom) of label relative to above number (can be negative)
+        // For vertical lines positioned top or bottom, negative values move
+        // the label toward the edge, and positive values toward the center.
+        yAdjust: 0,
+ 
+        // Whether the label is enabled and should be displayed
+        enabled: false,
+ 
+        // Text to display in label - default is null
+        content: "Test label"
+    },
+              }]
+            }
+          };
+  
+          var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+  
+          chart.draw(data, options);
+        }
+      </script>
+    </head>
+    <body>
+      <div id="curve_chart" style="width: 900px; height: 500px"></div>
+    </body>
+  </html>

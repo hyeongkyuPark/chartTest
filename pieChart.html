@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .chart {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .chart p {
+            position: absolute;
+            font-size: 3em;
+            font-weight: bold;
+        }
+        .chart p span {
+            font-size: 0.4em;
+            color: #a6a6a6;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+
+    <div class="chart">
+        <canvas id="myPieChart"></canvas>
+        <p>75<span>%</span></p>
+    </div>
+    <script>
+      
+        // Pie Chart Example
+        var ctx = document.getElementById("myPieChart");
+        var myPieChart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: ["미측정", "측정"],
+            datasets: [{
+              data: [10, 20],
+              backgroundColor: ['#a6a6a6', '#ff8e00'],
+              hoverBackgroundColor: ['#2c9faf', '#17a673'],
+              hoverBorderColor: "rgba(234, 236, 244, 1)",
+            }],
+          },
+          options: {
+            maintainAspectRatio: false,
+            tooltips: {
+              backgroundColor: "rgb(255,255,255)",
+              bodyFontColor: "#858796",
+              borderColor: '#dddfeb',
+              borderWidth: 1,
+              xPadding: 15,
+              yPadding: 15,
+              displayColors: false,
+              caretPadding: 10,
+            },
+            legend: {
+              display: false
+            },
+            cutoutPercentage: 75,
+          },
+        });
+      
+      </script>
+</body>
+</html>
